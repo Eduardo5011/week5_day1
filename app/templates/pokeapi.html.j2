@@ -2,11 +2,12 @@
 
 {% block title %}
 Pokemon search
+
 {% endblock %}
 
 {% block content %}
-<h1>Results</h1>
-<form method="POST" action="/pokeapi">
+<h1>Pokemon Search</h1>
+<form method="POST" action="{{url_for('main.pokeapi')}}">
   <div class="mb-3">
     <label for="name" class="form-label">name</label>
     <input type="text" name ="name" class="form-control" id="name">
@@ -37,13 +38,18 @@ Pokemon search
             <td>{{info['base_hp']}}</td>
             <td>{{info['base_attack']}}</td>
             <td>{{info['base_defense']}}</td>
-            <td>{{info['front_shiny']}}</td>
+            <td><img src='{{info.front_shiny}}'height=100 width=100></td>
         </tr>
      {% endfor %}
   </tbody>
 </table>
 {% else %}
     Enter the name you want to look for
+
+    <ul class="navbar-nav ms-auto align-items-center">
+                    <img src="/static/images/pokedex.png" style="height:120px">
+                    </ul>
+
 {% endif %}
 
 

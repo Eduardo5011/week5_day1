@@ -9,9 +9,11 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
-    email = db.Column(db.String(200), unique=True)
+    email = db.Column(db.String(200), unique=True, index=True)
     password = db.Column(db.String(200))
+    icon = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, default=dt.utcnow)
+    
 
     def __repr__(self):
         return f'<User: {self.id} | {self.email}>'
@@ -20,6 +22,7 @@ class User(UserMixin, db.Model):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data["email"]
+        self.icon = data['icon']
         self.password = self.hash_password(data['password'])
 
     
@@ -34,6 +37,9 @@ class User(UserMixin, db.Model):
     def save(self):
         db.session.add(self) 
         db.session.commit() 
+
+    def get_icon_url(self):
+        return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{self.icon}.png'
     
 
 @login.user_loader

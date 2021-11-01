@@ -5,17 +5,27 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 # app instantiation
-app = Flask(__name__)
-app.config.from_object(Config)
 
-login = LoginManager(app)
 
-login.login_view = 'login'
+login = LoginManager()
+
+login.login_view = 'auth.login'
 
 # db
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+migrate = Migrate()
 
-migrate = Migrate(app, db)
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    login.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app,db)
 
+    from .blueprints.main import bp as main_bp
+    app.register_blueprint(main_bp)
 
-from app import routes
+    from .blueprints.auth import bp as auth_bp
+    app.register_blueprint(auth_bp)
+
+    return app
