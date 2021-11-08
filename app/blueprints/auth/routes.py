@@ -83,3 +83,7 @@ def edit_profile():
             return redirect(url_for('auth.edit_profile'))   
 
     return render_template('register.html.j2', form=form)
+
+@auth.route('/battle', methods=["GET"])  
+def battle():
+    return render_template('battle.html.j2') 
