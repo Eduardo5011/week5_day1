@@ -3,6 +3,8 @@ import requests
 from .forms import PokeForm
 from flask_login import login_required
 from .import bp as main
+from app.models import Pokemon
+
 
 
 
@@ -33,6 +35,10 @@ def pokeapi():
                 "base_defense":data["stats"][2]["base_stat"],   
                 "front_shiny":data["sprites"]["front_shiny"],                
             }
+            new_pokemon_object = Pokemon()
+            new_pokemon_object.from_dict(poke_team)
+            new_pokemon_object.save()
+
             poke_info.append(poke_team)   
             print(poke_info) 
             return render_template('pokeapi.html.j2', information=poke_info, form=form)
