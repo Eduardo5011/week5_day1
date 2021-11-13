@@ -47,10 +47,10 @@ def register():
             }
             
             new_user_object = User()
-            
             new_user_object.from_dict(new_user_data)
-            
             new_user_object.save()
+            
+
         except:
             error_string = "There was an unexpected Error creating your account. Please Try again."
             return render_template('register.html.j2',form=form, error = error_string) 

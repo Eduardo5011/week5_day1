@@ -1,5 +1,5 @@
 from app import db
-from flask_login import UserMixin 
+from flask_login import UserMixin, current_user
 from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login
@@ -7,6 +7,11 @@ from app import login
 #added 11/02/21---------
 
 
+# followers = db.Table(
+#     'followers',
+#     db.Column('follower_id',db.Integer, db.ForeignKey('user.id')),
+#     db.Column('followed_id',db.Integer, db.ForeignKey('user.id'))
+# )
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,7 +21,43 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200))
     icon = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, default=dt.utcnow)
-    posts = db.relationship('Pokemon', backref='author', lazy='dynamic')  #added 11/02/21
+    posts = db.relationship('Pokemon')  #added 11/02/21
+    # followed = db.relationship('User',
+    #                 secondary = followers,
+    #                 primaryjoin=(followers.c.follower_id == id),
+    #                 secondaryjoin=(followers.c.followed_id == id),
+    #                 backref=db.backref('followers',lazy='dynamic'),
+    #                 lazy='dynamic'
+    #                 )
+
+
+    # def is_following(self, user):
+    #     return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+    def is_added(self,user):
+        return self.posts.filter()
+
+    
+    # def follow(self, user):
+    #     if not self.is_following(user):
+    #         self.followed.append(user)
+    #         db.session.commit()
+
+    
+    # def unfollow(self,user):
+    #     if self.is_following(user):
+    #         self.followed.remove(user)
+    #         db.session.commit()
+
+    # def followed_posts(self):
+        
+    #     followed = Post.query.join(followers, (Post.user_id == followers.c.followed_id)).filter(followers.c.follower_id == self.id)
+        
+    #     self_posts = Post.query.filter_by(user_id=self.id)
+
+        
+    #     all_posts = followed.union(self_posts).order_by(Post.date_created.desc())
+    #     return all_posts        
     
     
 
@@ -55,7 +96,7 @@ def load_user(id):
     #added 11/02/21---------
 class Pokemon(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique =True, index=True)
+    name = db.Column(db.String(100), index=True)
     ability = db.Column(db.String(100))
     base_experience = db.Column(db.Integer)
     base_hp = db.Column(db.Integer)
@@ -73,6 +114,7 @@ class Pokemon(db.Model):
         self.base_attack = data["base_attack"]
         self.base_defense = data["base_defense"]
         self.front_shiny = data["front_shiny"]
+        self.user_id = current_user.id
 
 
 
@@ -85,5 +127,5 @@ class Pokemon(db.Model):
     def __repr__(self):
         return f'<id:{self.id} | Pokemon: {self.name}">'
 
-    
+
          

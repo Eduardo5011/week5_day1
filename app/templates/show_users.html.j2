@@ -1,4 +1,4 @@
-{% extends 'base.html.j2' %}
+{# {% extends 'base.html.j2' %}
 {% block content %}
 {% for user in users %}
     {% if not user.id == current_user.id %}
@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-8">
         <div class="card-body">
-            <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+            <h5 class="card-title"></h5>
             <p class="card-text">Maybe later</p>
             {% if current_user.is_following(user) %}
                 <a href="/follow/{{user.id}}" class="btn btn-info">Add</a>
@@ -23,3 +23,5 @@
     </div>
     {% endif %}
 {% endfor %}
+
+{% endblock %} #}

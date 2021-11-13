@@ -48,3 +48,10 @@ def pokeapi():
             return " Houston we have a problem "   
 
     return render_template('pokeapi.html.j2', form=form)
+
+@main.route('/poke_team', methods=['GET'])  
+@login_required
+def poke_team():
+    pokemon = Pokemon.query.all()
+    return render_template('poketeam.html.j2', pokemon=pokemon)
+

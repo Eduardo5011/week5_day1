@@ -1,0 +1,29 @@
+{% extends 'base.html.j2'%}
+
+{% block content %}
+<h1>Pokeom Team</h1>
+{% for poke in pokemon %}
+{% if poke.user_id == current_user.id %}
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{poke.front_shiny}}" class="img-fluid rounded-start" alt="pokemon">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{poke.names}}</h5>
+        <p class="card-text">HP: {{poke.base_hp}}</p>
+        <p class="card-text">base experience: {{poke.base_experience}}</p>
+        <p class="card-text">base attack: {{poke.base_attack}}</p>
+        <p class="card-text">base defense: {{poke.base_defense}}</p>
+        <button type="button" class="btn btn-danger">Dark</button>
+        <button type="button" class="btn btn-dark">Dark</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}
