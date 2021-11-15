@@ -34,8 +34,7 @@ class User(UserMixin, db.Model):
     # def is_following(self, user):
     #     return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
-    def is_added(self,user):
-        return self.posts.filter()
+    
 
     
     # def follow(self, user):
