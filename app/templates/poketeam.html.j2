@@ -16,9 +16,11 @@
         <p class="card-text">base experience: {{poke.base_experience}}</p>
         <p class="card-text">base attack: {{poke.base_attack}}</p>
         <p class="card-text">base defense: {{poke.base_defense}}</p>
-        <button type="button" class="btn btn-danger">Attack</button>
-        <button type="button" class="btn btn-dark">Remove</button>
-        
+        {# {% if current_user(user)%} #}
+        {# <a hred="/remove/{{user.id}}" class="btn btn-danger">Remove</a> #}
+       {# {% else%} #}
+        {# <a hred="/attack/{{user.id}}" class="btn btn-dark">Attack</a> #}
+        {# {% endif %} #}
       </div>
     </div>
   </div>

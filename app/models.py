@@ -126,5 +126,17 @@ class Pokemon(db.Model):
     def __repr__(self):
         return f'<id:{self.id} | Pokemon: {self.name}">'
 
+    # def attack(self, user):
+    #     if not attacking(user):
+    #         self.append(user) 
+    #         db.session.commit()
+
+    # def remove(self, user):
+    #     if self.attacking(user):
+    #         self.attack.remove(user)
+    #         db.session.commit()           
+
+
+
 
          

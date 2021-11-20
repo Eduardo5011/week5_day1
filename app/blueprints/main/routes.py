@@ -1,7 +1,7 @@
-from flask import render_template, request
+from flask import render_template, request, flash, redirect, url_for
 import requests
 from .forms import PokeForm
-from flask_login import login_required
+from flask_login import login_required, current_user
 from .import bp as main
 from app.models import Pokemon
 
@@ -54,4 +54,27 @@ def pokeapi():
 def poke_team():
     pokemon = Pokemon.query.all()
     return render_template('poketeam.html.j2', pokemon=pokemon)
+
+
+
+
+# @main.route('/attack/ <int:id>')
+# @login_required
+# def attack(id):
+#     user_to_attack = Pokemon.query.get(id)
+#     current_user.attack(user_to_attack)
+#     flash(f"You have attacked {user_to_attack.poke.names}", 'success')
+#     return redirect(url_for('main.poketeam'))
+
+
+@main.route('/remove/ <int:id>')
+@login_required
+def remove(id):
+    user_to_remove = Pokemon.query.get(id)
+    current_user.attack(user_to_remove)
+    flash(f"pokemon has been removed {user_to_remove.poke.names}", 'success')
+    return redirect(url_for('main.poketeam'))    
+
+
+
 
