@@ -3,7 +3,8 @@ import requests
 from .forms import PokeForm
 from flask_login import login_required, current_user
 from .import bp as main
-from app.models import Pokemon
+from app.models import Pokemon, User
+
 
 
 
@@ -58,22 +59,52 @@ def poke_team():
 
 
 
-# @main.route('/attack/ <int:id>')
-# @login_required
-# def attack(id):
-#     user_to_attack = Pokemon.query.get(id)
-#     current_user.attack(user_to_attack)
-#     flash(f"You have attacked {user_to_attack.poke.names}", 'success')
-#     return redirect(url_for('main.poketeam'))
+@main.route('/attack/<int:defender_id>')
+@login_required
+def attack(defender_id):
+    user_attack= 0
+    user_defense = 0
+    defender_attack= 0
+    defender_defense= 0
+    
+    pokemon = Pokemon.query.all()
+    for poke in pokemon:
+        if poke.user_id == current_user.id:
+            user_attack += poke.base_attack
+            user_defense += poke.base_defense
+        if poke.user_id == defender_id:
+            defender_attack += poke.base_attack
+            defender_defense += poke.base_defense
+    if user_attack > defender_defense:
+        flash(f"You have won", 'success') 
+        return render_template('battle.html.j2')
+    elif  user_attack < defender_defense:
+        flash(f"You have lost") 
+        return render_template('battle.html.j2') 
+    else:
+        flash(f"Tie")    
+    
+    
+    return redirect('battle.html.j2')
 
 
-@main.route('/remove/ <int:id>')
+@main.route('/remove/<int:id>')
 @login_required
 def remove(id):
-    user_to_remove = Pokemon.query.get(id)
-    current_user.attack(user_to_remove)
-    flash(f"pokemon has been removed {user_to_remove.poke.names}", 'success')
-    return redirect(url_for('main.poketeam'))    
+    pokemon_to_remove = Pokemon.query.get(id)
+    pokemon_to_remove.release()
+    flash(f"pokemon has been removed {pokemon_to_remove}", 'success')
+    return redirect(url_for('main.poke_team'))  
+
+
+@main.route('/show_users') 
+@login_required
+def show_users():
+    users= User.query.all()   
+    pokemon=Pokemon.query.all()
+
+    return render_template('battle.html.j2', users=users, pokemon=pokemon)
+
 
 
 

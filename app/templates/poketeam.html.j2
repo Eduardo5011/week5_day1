@@ -17,9 +17,9 @@
         <p class="card-text">base attack: {{poke.base_attack}}</p>
         <p class="card-text">base defense: {{poke.base_defense}}</p>
         {# {% if current_user(user)%} #}
-        {# <a hred="/remove/{{user.id}}" class="btn btn-danger">Remove</a> #}
+        <a href="/remove/{{poke.id}}" class="btn btn-primary">Remove</a>
        {# {% else%} #}
-        {# <a hred="/attack/{{user.id}}" class="btn btn-dark">Attack</a> #}
+        <a href="/attack/{{poke.id}}" class="btn btn-danger" >Attack</a>
         {# {% endif %} #}
       </div>
     </div>

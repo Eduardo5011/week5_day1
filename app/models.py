@@ -121,6 +121,9 @@ class Pokemon(db.Model):
         db.session.add(self) 
         db.session.commit()
 
+    def release(self):
+        db.session.delete(self)
+        db.session.commit()
 
     # added 11/02/21---------
     def __repr__(self):
